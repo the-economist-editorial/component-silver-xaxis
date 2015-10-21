@@ -1,3 +1,4 @@
+/* eslint-disable prefer-reflect */
 import Dthree from 'd3';
 import React from 'react';
 
