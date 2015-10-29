@@ -46,6 +46,7 @@ export default class SilverXaxis extends React.Component {
     const config = this.props.config;
     const xScale = config.scale;
     const orient = config.orient;
+    // Ouch! Shouldn't be fiddling with the props...!
     this.props.axis
       .scale(xScale)
       .orient(orient)
@@ -73,20 +74,11 @@ export default class SilverXaxis extends React.Component {
     // is only partly successful, because I also need to address
     // the orientation (top/bottom), which flips the ticks and strings...
     axisGroup
-      //
-      //
       .transition().duration(duration)
       .call(this.props.axis)
-        // I did have delay(duration)...
         .transition().duration(duration)
         .attr('transform', transform)
         ;
-    // Failed attempt at separating re-orientation from move...
-    // this.props.axis.orient(this.props.config.orient);
-    // axisGroup
-    //  .transition().delay(duration*3).duration(duration)
-    //     .call(this.props.axis)
-        // ;
   }
 
   // RENDER
