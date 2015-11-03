@@ -1,3 +1,4 @@
+// Disable prefer-reflect, for D3 axis.call()
 /* eslint-disable prefer-reflect */
 import Dthree from 'd3';
 import React from 'react';
@@ -20,39 +21,35 @@ export default class SilverXaxis extends React.Component {
     };
   }
 
-  // CONSTRUCTOR
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-
   // COMPONENT DID MOUNT
   componentDidMount() {
-    this.setXaxisConfig();
-    this.updateXaxis();
+    const xAxis = this.setXaxisConfig();
+    this.updateXaxis(xAxis);
   }
 
   // COMPONENT DID UPDATE
   componentDidUpdate() {
-    this.setXaxisConfig();
-    this.updateXaxis();
+    // this.setXaxisConfig();
+    // this.updateXaxis();
+    const xAxis = this.setXaxisConfig();
+    this.updateXaxis(xAxis);
   }
 
-  // GET X-AXIS CONFIG
-  //
+  // SET X-AXIS CONFIG
   setXaxisConfig() {
+    const xAxis = this.props.axis;
     const config = this.props.config;
     const xScale = config.scale;
     const orient = config.orient;
-    // Ouch! Shouldn't be fiddling with the props...!
-    this.props.axis
+    xAxis
       .scale(xScale)
       .orient(orient)
       .tickPadding(5)
+      // To come: ticks need to be at an appropriate 'density',
+      // rather than a fixed number...
       .ticks(5)
       .tickSize(5);
+    return xAxis;
   }
 
   getAxisGroupTransformString() {
@@ -65,17 +62,13 @@ export default class SilverXaxis extends React.Component {
 
   // UPDATE X-AXIS
   // Called directly on the DOM to update the axis
-  updateXaxis() {
+  updateXaxis(xAxis) {
     const axisGroup = Dthree.select('.d3-xaxis-group');
     const duration = this.props.config.duration;
     const transform = this.getAxisGroupTransformString();
-    // I'm trying to chain the transitions if the axis moves
-    // from bottom to top, as well as changing scale. This
-    // is only partly successful, because I also need to address
-    // the orientation (top/bottom), which flips the ticks and strings...
     axisGroup
       .transition().duration(duration)
-      .call(this.props.axis)
+      .call(xAxis)
         .transition().duration(duration)
         .attr('transform', transform)
         ;
