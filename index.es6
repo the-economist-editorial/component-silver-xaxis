@@ -46,7 +46,9 @@ export default class SilverXaxis extends React.Component {
       .orient(orient)
       .tickPadding(5)
       // To come: ticks need to be at an appropriate 'density',
-      // rather than a fixed number...
+      // rather than a fixed number... This will require a
+      // bit of calculating to get a min and max with an
+      // appropriate number of intermediate ticks...
       .ticks(5)
       .tickSize(5);
     return xAxis;
