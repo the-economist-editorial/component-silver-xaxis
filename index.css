@@ -1,10 +1,18 @@
 /* Chart x-axis */
 .d3-xaxis-group path, .d3-xaxis-group line {
   fill: none;
-  stroke: #8b8b8b;
-  stroke-width: .5px;
+  stroke: #FFFFFF;
+  stroke-width: 0.3px;
+  /* Sadly, crispEdges causes some ticks not to display... */
+  /* shape-rendering: crispEdges; */
 }
+
+.d3-xaxis-group path {
+  display:none;
+}
+
 .d3-xaxis-group text {
-  font-size: 14px;
-  fill: #8b8b8b;
+  font-family: 'OfficinaSanITC-Book';
+  font-size: 7px;
+  fill: #000000;
 }
