@@ -1,5 +1,12 @@
-/* Chart x-axis */
-.d3-xaxis-group path, .d3-xaxis-group line {
+/*
+    Chart y-axis
+    These are minimal default values only,
+    potentially over-ridden further up the chain.
+    This file should probably be ignored...
+*/
+
+/* Actual ticks */
+.d3-xaxis-group line {
   fill: none;
   stroke: #FFFFFF;
   stroke-width: 0.3px;
@@ -7,10 +14,12 @@
   /* shape-rendering: crispEdges; */
 }
 
+/* No 'domain' path */
 .d3-xaxis-group path {
   display:none;
 }
 
+/* Axis labels */
 .d3-xaxis-group text {
   font-family: 'OfficinaSanITC-Book';
   font-size: 7px;

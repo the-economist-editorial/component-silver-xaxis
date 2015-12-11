@@ -21,42 +21,14 @@ export default class SilverXaxis extends React.Component {
     };
   }
 
-  // CONSTRUCTOR
-  constructor(props) {
-    super(props);
-    this.state = {
-      'moveAxis': true,
-    };
-  }
-
   // COMPONENT DID MOUNT
   componentDidMount() {
     const xAxis = this.setXaxisConfig();
     this.updateXaxis(xAxis);
   }
 
-  /*
-  Gets called on 2nd render, when
-  */
-  /*
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.config.checkMargins) {
-      const oldAxisPosition = this.props.config.orient;
-      const newAxisPosition = nextProps.config.orient;
-      console.log('componentWillReceiveProps sets moveAxis = ' + (oldAxisPosition !== newAxisPosition))
-      this.setState({ 'moveAxis': (oldAxisPosition !== newAxisPosition) });
-      //console.log("checkMargins is false and moveAxis is " + this.state.moveAxis);
-    } else {
-      //console.log("checkMargins is true;")
-    }
-    this.setState({ 'moveAxis': true })
-  }
-  */
-
   // COMPONENT DID UPDATE
   componentDidUpdate() {
-    // this.setXaxisConfig();
-    // this.updateXaxis();
     const xAxis = this.setXaxisConfig();
     this.updateXaxis(xAxis);
   }
@@ -65,29 +37,36 @@ export default class SilverXaxis extends React.Component {
   setXaxisConfig() {
     const xAxis = this.props.axis;
     const config = this.props.config;
+    // Scale function:
     const xScale = config.scale;
-    const ticks = config.ticks;
+    // Tick density:
+    const tickDensity = config.tickDensity;
+    // Padding between labels and tick-ends:
+    const tickPadding = config.tickPadding;
+    // Top or bottom:
     const orient = config.orient;
-    let height = config.bounds.height;
-    // But are ticks drawn down from top, or up from bottom?
+    // Tick length
+    let tickLength = config.tickLength;
+    // If axis at top, tickLength is neg value:
     if (orient === 'top') {
-      height = -height;
+      tickLength = -tickLength;
     }
     xAxis
       .scale(xScale)
       .orient(orient)
       // Position of labels above tick ends, at top
-      // Needs to be prefs for top and bottom...
-      .tickPadding(3)
-      // To come: ticks need to be at an appropriate 'density',
-      // rather than a fixed number... This will require a
-      // bit of calculating to get a min and max with an
-      // appropriate number of intermediate ticks...
-      .ticks(ticks)
-      .tickSize(height);
+      .tickPadding(tickPadding)
+      // Number of ticks
+      .ticks(tickDensity)
+      // Tick length
+      .tickSize(tickLength);
     return xAxis;
   }
+  // SET X-AXIS CONFIG ends
 
+  // GET AXIS GROUP TRANSFORM STRING
+  // Called from updateXAxis. Returns string that determines
+  // whether axis is drawn top/bottom
   getAxisGroupTransformString() {
     let height = 0;
     if (this.props.config.orient === 'bottom') {
@@ -95,6 +74,7 @@ export default class SilverXaxis extends React.Component {
     }
     return `translate(0,${height})`;
   }
+  // GET AXIS GROUP TRANSFORM STRING ends
 
   // UPDATE X-AXIS
   // Called directly on the DOM to update the axis
@@ -111,10 +91,10 @@ export default class SilverXaxis extends React.Component {
         .attr('transform', transform)
         ;
   }
+  // UPDATE X-AXIS ends
 
-  // RENDER
+  // RENDER axis group
   render() {
-    // Axis group
     return (
       <g className="d3-xaxis-group"/>
     );
